@@ -1,0 +1,565 @@
+html
+<!DOCTYPE html>
+<html lang="vi" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SARAE STUDIO - Secure Key System</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#050B14',
+                        cyanAccent: '#0ea5e9',
+                        cyanGlow: '#38bdf8'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #050B14;
+            color: #F8FAFC;
+            overflow-x: hidden;
+        }
+        .glass-panel {
+            background: rgba(13, 20, 38, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(56, 189, 248, 0.15);
+        }
+        .glass-card {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .grid-bg {
+            background-image: linear-gradient(to right, rgba(56, 189, 248, 0.03) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(56, 189, 248, 0.03) 1px, transparent 1px);
+            background-size: 32px 32px;
+        }
+        .glow-cyan {
+            box-shadow: 0 0 35px rgba(14, 165, 233, 0.4);
+        }
+        .glow-cyan-sm {
+            box-shadow: 0 0 15px rgba(14, 165, 233, 0.25);
+        }
+        @keyframes crystalPulse {
+            0%, 100% { filter: drop-shadow(0 0 20px rgba(56, 189, 248, 0.7)); transform: scale(1); }
+            50% { filter: drop-shadow(0 0 45px rgba(56, 189, 248, 1)); transform: scale(1.06); }
+        }
+        .crystal-anim {
+            animation: crystalPulse 3s infinite ease-in-out;
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #050B14; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 3px; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col relative grid-bg selection:bg-cyan-500 selection:text-white">
+
+    <!-- INTRO ANIMATION OVERLAY -->
+    <div id="intro-overlay" class="fixed inset-0 z-50 bg-[#030712] flex flex-col items-center justify-center transition-opacity duration-1000">
+        <!-- Stage 1: Point light core -->
+        <div id="intro-stage-1" class="absolute inset-0 flex items-center justify-center transition-opacity duration-700">
+            <div class="w-4 h-4 bg-cyan-400 rounded-full glow-cyan animate-ping"></div>
+        </div>
+        <!-- Stage 2: Crystal Explosion -->
+        <div id="intro-stage-2" class="absolute inset-0 flex flex-col items-center justify-center opacity-0 transition-opacity duration-700">
+            <div class="relative flex items-center justify-center mb-6">
+                <div class="absolute w-80 h-80 bg-cyan-500/20 rounded-full blur-3xl animate-pulse"></div>
+                <div class="w-24 h-24 rounded-3xl bg-gradient-to-br from-cyan-400/25 to-blue-600/35 border border-cyan-400/50 flex items-center justify-center glow-cyan crystal-anim">
+                    <i class="fa-solid fa-gem text-4xl text-cyan-400"></i>
+                </div>
+            </div>
+            <div class="text-cyan-400 text-xl sm:text-2xl font-black tracking-[0.3em] uppercase">SARAE STUDIO</div>
+            <div class="text-xs text-slate-400 tracking-widest mt-1" data-lang="sub_title">SECURE KEY SYSTEM</div>
+        </div>
+        <!-- Stage 3: Nodes Session - Proof - Key -->
+        <div id="intro-stage-3" class="absolute inset-0 flex flex-col items-center justify-center opacity-0 transition-opacity duration-700 px-4">
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center justify-center w-16 h-16 bg-cyan-500/10 border border-cyan-500/40 rounded-2xl mb-3 glow-cyan-sm">
+                    <i class="fa-solid fa-shield-halved text-2xl text-cyan-400"></i>
+                </div>
+                <h1 class="text-xl sm:text-2xl font-extrabold text-white tracking-wider" data-lang="intro_heading">HỆ THỐNG XÁC THỰC SARAE</h1>
+            </div>
+            
+            <div class="flex items-center gap-2 sm:gap-6 bg-slate-900/90 px-6 py-4 rounded-2xl border border-slate-800 shadow-2xl">
+                <div class="flex items-center gap-2 text-cyan-400 text-xs sm:text-sm font-semibold">
+                    <span class="w-7 h-7 rounded-xl bg-cyan-500/20 border border-cyan-500 flex items-center justify-center text-xs">1</span>
+                    <span class="hidden sm:inline">SESSION</span>
+                </div>
+                <div class="w-8 sm:w-16 h-[2px] bg-cyan-500/40"></div>
+                <div class="flex items-center gap-2 text-cyan-400 text-xs sm:text-sm font-semibold">
+                    <span class="w-7 h-7 rounded-xl bg-cyan-500/20 border border-cyan-500 flex items-center justify-center text-xs">2</span>
+                    <span class="hidden sm:inline">PROOF</span>
+                </div>
+                <div class="w-8 sm:w-16 h-[2px] bg-cyan-500/40"></div>
+                <div class="flex items-center gap-2 text-cyan-400 text-xs sm:text-sm font-semibold">
+                    <span class="w-7 h-7 rounded-xl bg-cyan-500/20 border border-cyan-500 flex items-center justify-center text-xs">3</span>
+                    <span class="hidden sm:inline">KEY</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HEADER -->
+    <header class="w-full border-b border-slate-800/80 glass-panel sticky top-0 z-40 px-4 sm:px-8 py-3.5 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400/25 to-blue-600/25 border border-cyan-400/40 flex items-center justify-center text-cyan-400 glow-cyan-sm">
+                <i class="fa-solid fa-gem text-lg crystal-anim"></i>
+            </div>
+            <div>
+                <span class="font-extrabold text-base sm:text-lg tracking-wider bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">SARAE</span>
+                <span class="text-[10px] block text-slate-400 font-semibold uppercase tracking-widest" data-lang="header_sub">SECURE ACCESS</span>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-3">
+            <!-- Language Dropdown -->
+            <div class="relative">
+                <button onclick="playClickSound(); toggleLangDropdown()" class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-800/80 border border-slate-700/60 text-xs sm:text-sm font-medium text-slate-300 hover:bg-slate-700/80 transition">
+                    <i class="fa-solid fa-globe text-cyan-400"></i>
+                    <span id="current-lang-text">Tiếng Việt</span>
+                    <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
+                </button>
+                <div id="lang-dropdown" class="absolute right-0 mt-2 w-36 glass-panel rounded-xl shadow-xl border border-slate-700/80 hidden z-50 overflow-hidden">
+                    <button onclick="setLanguage('vi')" class="w-full text-left px-4 py-2.5 text-xs text-slate-200 hover:bg-cyan-500/20 transition flex items-center gap-2">
+                        🇻🇳 Tiếng Việt
+                    </button>
+                    <button onclick="setLanguage('en')" class="w-full text-left px-4 py-2.5 text-xs text-slate-200 hover:bg-cyan-500/20 transition flex items-center gap-2">
+                        🇺🇸 English
+                    </button>
+                </div>
+            </div>
+
+            <!-- Audio Toggle -->
+            <button id="audio-toggle" onclick="toggleAudio()" class="w-10 h-10 rounded-xl bg-slate-800/80 border border-slate-700/60 flex items-center justify-center text-slate-300 hover:bg-slate-700 transition" title="Bật/Tắt âm thanh">
+                <i id="audio-icon" class="fa-solid fa-volume-high text-cyan-400"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-1 flex flex-col items-center justify-center px-4 py-8 max-w-xl mx-auto w-full relative z-10">
+        
+        <!-- Ambient Background Glow -->
+        <div class="absolute -top-10 left-1/2 -translate-x-1/2 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <!-- Title Section -->
+        <div class="text-center mb-6">
+            <h1 class="text-xl sm:text-2xl font-black text-white tracking-tight flex items-center justify-center gap-2.5">
+                <span data-lang="main_title">Mở khóa Key của bạn</span>
+                <i class="fa-solid fa-key text-cyan-400 text-sm"></i>
+            </h1>
+            <p class="text-xs sm:text-sm text-slate-400 mt-1" data-lang="main_desc">Hệ thống mã hóa độc quyền từ Sarae Studio</p>
+        </div>
+
+        <!-- Glass Panel Box -->
+        <div class="w-full glass-panel rounded-2xl p-5 sm:p-7 shadow-2xl relative border border-slate-700/60">
+            
+            <!-- Status Card -->
+            <div id="status-card" class="w-full bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-4 mb-5 flex items-start gap-3.5 shadow-lg">
+                <div class="w-7 h-7 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 shrink-0 mt-0.5">
+                    <i class="fa-solid fa-check text-xs"></i>
+                </div>
+                <div>
+                    <h3 id="status-title" class="text-sm font-bold text-emerald-400">Thành công!</h3>
+                    <p id="status-desc" class="text-xs text-slate-300 mt-0.5 leading-relaxed">Bạn đã vượt qua các bước xác thực và nhận được Key truy cập độc quyền.</p>
+                </div>
+            </div>
+
+            <!-- Verified Card -->
+            <div class="w-full glass-card rounded-xl p-3.5 mb-5 flex items-center justify-between border border-slate-700/40">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500/20 to-blue-500/20 border border-cyan-500/30 flex items-center justify-center text-cyan-400 font-bold text-sm shadow-inner">
+                        <i class="fa-solid fa-shield text-cyan-400"></i>
+                    </div>
+                    <div>
+                        <div class="text-xs font-bold text-slate-200">@sarae.official</div>
+                        <div class="text-[11px] text-cyan-400 flex items-center gap-1 mt-0.5">
+                            <i class="fa-solid fa-circle-check text-[10px]"></i> <span data-lang="verified_text">Đã xác thực bảo mật Cloudflare</span>
+                        </div>
+                    </div>
+                </div>
+                <div id="badge-type" class="px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-[11px] font-semibold text-cyan-400 tracking-wider">
+                    STANDARD
+                </div>
+            </div>
+
+            <!-- Key Box -->
+            <div class="mb-5">
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2 flex items-center justify-between">
+                    <span><i class="fa-solid fa-lock text-cyan-400 mr-1.5"></i> <span data-lang="key_label">MÃ KEY CỦA BẠN</span></span>
+                    <span id="key-expiry-badge" class="text-[10px] text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20 font-mono">Hạn: 9 Giờ</span>
+                </label>
+                <div class="flex items-center gap-2">
+                    <div class="relative flex-1">
+                        <input type="password" id="key-input" readonly value="" class="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl px-4 py-3 text-xs sm:text-sm font-mono text-cyan-300 focus:outline-none focus:border-cyan-500 transition shadow-inner">
+                        <button onclick="playClickSound(); toggleKeyVisibility()" class="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition text-sm">
+                            <i id="eye-icon" class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                    <button onclick="playClickSound(); copyKey()" class="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold px-4 py-3 rounded-xl text-xs sm:text-sm transition flex items-center gap-2 shadow-lg shadow-cyan-500/25 shrink-0 active:scale-95">
+                        <i class="fa-regular fa-copy"></i>
+                        <span class="hidden sm:inline" data-lang="btn_copy">Sao chép</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="space-y-2.5">
+                <button onclick="playClickSound(); resetNewKey();" class="w-full py-3 px-4 rounded-xl bg-slate-800/80 hover:bg-slate-750 border border-slate-700/80 text-xs sm:text-sm font-semibold text-slate-200 transition flex items-center justify-center gap-2 group shadow-md">
+                    <i class="fa-solid fa-rotate text-cyan-400 group-hover:rotate-180 transition duration-500"></i>
+                    <span data-lang="btn_refresh">Đổi đầu dây Key</span>
+                </button>
+                <button onclick="playClickSound(); openVipModal();" class="w-full py-3 px-4 rounded-xl bg-slate-800/50 hover:bg-slate-800 border border-cyan-500/30 text-xs sm:text-sm font-medium text-cyan-300 hover:text-cyan-200 transition flex items-center justify-center gap-2 shadow-sm">
+                    <i class="fa-solid fa-bolt text-amber-400"></i>
+                    <span data-lang="btn_vip">Bỏ qua xác minh, lấy code nhanh (VIP)</span>
+                </button>
+            </div>
+
+        </div>
+
+        <!-- Social Links -->
+        <div class="mt-8 flex items-center justify-center gap-4">
+            <a href="#" onclick="playClickSound(); showAlert('Đang chuyển hướng đến kênh Telegram Sarae...')" class="w-11 h-11 rounded-2xl glass-card border border-slate-700/60 flex items-center justify-center text-slate-300 hover:text-cyan-400 hover:border-cyan-500/50 transition shadow-lg">
+                <i class="fa-brands fa-telegram text-lg"></i>
+            </a>
+            <a href="#" onclick="playClickSound(); showAlert('Đang chuyển hướng đến kênh YouTube Sarae...')" class="w-11 h-11 rounded-2xl glass-card border border-slate-700/60 flex items-center justify-center text-slate-300 hover:text-red-400 hover:border-red-500/50 transition shadow-lg">
+                <i class="fa-brands fa-youtube text-lg"></i>
+            </a>
+            <a href="#" onclick="playClickSound(); showAlert('Đang chuyển hướng đến máy chủ Discord Sarae...')" class="w-11 h-11 rounded-2xl glass-card border border-slate-700/60 flex items-center justify-center text-slate-300 hover:text-indigo-400 hover:border-indigo-500/50 transition shadow-lg">
+                <i class="fa-brands fa-discord text-lg"></i>
+            </a>
+        </div>
+
+        <!-- Footer -->
+        <div class="mt-6 text-center text-[11px] text-slate-500 tracking-wider font-mono">
+            <span>SARAE STUDIO • CLOUDFLARE SECURED • BẢO MẬT TUYỆT ĐỐI</span>
+        </div>
+
+    </main>
+
+    <!-- VIP CODE INPUT POPUP MODAL -->
+    <div id="vip-modal" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-md hidden items-center justify-center px-4">
+        <div class="glass-panel max-w-sm w-full rounded-2xl p-6 text-center border border-cyan-500/40 shadow-2xl scale-95 transition-transform duration-300">
+            <div class="w-12 h-12 rounded-2xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400 mx-auto mb-4 glow-cyan-sm">
+                <i class="fa-solid fa-key text-xl"></i>
+            </div>
+            <h3 class="text-base font-extrabold text-white mb-1 tracking-wide" data-lang="vip_modal_title">NHẬP MÃ VIP BYPASS</h3>
+            <p class="text-xs text-slate-400 mb-4" data-lang="vip_modal_desc">Nhập mã code VIP để nhận Key thời hạn 24 giờ ngay lập tức.</p>
+            
+            <input type="text" id="vip-code-input" placeholder="Nhập mã (vd: vip-X2oA-8e4A)" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-xs sm:text-sm font-mono text-cyan-300 focus:outline-none focus:border-cyan-500 transition mb-4 text-center">
+            
+            <div class="flex gap-2">
+                <button onclick="playClickSound(); closeVipModal()" class="flex-1 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-750 text-slate-300 font-semibold text-xs transition border border-slate-700" data-lang="btn_cancel">Hủy</button>
+                <button onclick="playClickSound(); verifyVipCode()" class="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-orange-600 text-white font-bold text-xs uppercase tracking-wider hover:opacity-90 transition shadow-lg shadow-amber-500/20" data-lang="btn_verify">Xác Nhận</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- GENERAL NOTIFICATION MODAL -->
+    <div id="custom-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-md hidden items-center justify-center px-4">
+        <div class="glass-panel max-w-sm w-full rounded-2xl p-6 text-center border border-cyan-500/30 shadow-2xl scale-95 transition-transform duration-300">
+            <div class="w-12 h-12 rounded-2xl bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center text-cyan-400 mx-auto mb-4 glow-cyan-sm">
+                <i class="fa-solid fa-circle-info text-xl"></i>
+            </div>
+            <h3 class="text-base font-extrabold text-white mb-2 tracking-wide" data-lang="noti_title">THÔNG BÁO SARAE</h3>
+            <p id="modal-message" class="text-xs text-slate-300 mb-6 leading-relaxed">Nội dung thông báo...</p>
+            <button onclick="playClickSound(); closeModal()" class="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold text-xs uppercase tracking-wider hover:opacity-90 transition shadow-lg shadow-cyan-500/25" data-lang="btn_understood">
+                Đã hiểu
+            </button>
+        </div>
+    </div>
+
+    <!-- SCRIPT LOGIC -->
+    <script>
+        // Dictionary for Multi-language support
+        const langData = {
+            vi: {
+                sub_title: "SECURE KEY SYSTEM",
+                intro_heading: "HỆ THỐNG XÁC THỰC SARAE",
+                header_sub: "SECURE ACCESS",
+                main_title: "Mở khóa Key của bạn",
+                main_desc: "Hệ thống mã hóa độc quyền từ Sarae Studio",
+                status_title_std: "Thành công!",
+                status_desc_std: "Bạn đã vượt qua các bước xác thực và nhận được Key truy cập độc quyền.",
+                status_title_vip: "Đã kích hoạt VIP!",
+                status_desc_vip: "Bạn đã xác thực mã VIP thành công! Key độc quyền 24 giờ đã sẵn sàng.",
+                verified_text: "Đã xác thực bảo mật Cloudflare",
+                key_label: "MÃ KEY CỦA BẠN",
+                btn_copy: "Sao chép",
+                btn_refresh: "Đổi đầu dây Key",
+                btn_vip: "Bỏ qua xác minh, lấy code nhanh (VIP)",
+                vip_modal_title: "NHẬP MÃ VIP BYPASS",
+                vip_modal_desc: "Nhập mã code VIP để nhận Key thời hạn 24 giờ ngay lập tức.",
+                btn_cancel: "Hủy",
+                btn_verify: "Xác Nhận",
+                noti_title: "THÔNG BÁO SARAE",
+                btn_understood: "Đã hiểu"
+            },
+            en: {
+                sub_title: "SECURE KEY SYSTEM",
+                intro_heading: "SARAE AUTHENTICATION SYSTEM",
+                header_sub: "SECURE ACCESS",
+                main_title: "Unlock Your Key",
+                main_desc: "Exclusive encryption system by Sarae Studio",
+                status_title_std: "Success!",
+                status_desc_std: "You have completed the verification steps and received your exclusive access key.",
+                status_title_vip: "VIP Activated!",
+                status_desc_vip: "VIP code verified successfully! Your 24-hour exclusive key is ready.",
+                verified_text: "Cloudflare Security Verified",
+                key_label: "YOUR ACCESS KEY",
+                btn_copy: "Copy",
+                btn_refresh: "Generate New Key",
+                btn_vip: "Skip verification, get VIP key",
+                vip_modal_title: "ENTER VIP BYPASS CODE",
+                vip_modal_desc: "Enter the VIP code to get a 24-hour key immediately.",
+                btn_cancel: "Cancel",
+                btn_verify: "Verify",
+                noti_title: "SARAE NOTIFICATION",
+                btn_understood: "Understood"
+            }
+        };
+
+        let currentLang = 'vi';
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.getElementById('current-lang-text').innerText = lang === 'vi' ? 'Tiếng Việt' : 'English';
+            document.getElementById('lang-dropdown').classList.add('hidden');
+
+            // Update text elements
+            document.querySelectorAll('[data-lang]').forEach(el => {
+                const key = el.getAttribute('data-lang');
+                if (langData[lang][key]) {
+                    el.innerText = langData[lang][key];
+                }
+            });
+            showAlert(lang === 'vi' ? 'Đã chuyển sang ngôn ngữ Tiếng Việt.' : 'Switched to English language.');
+        }
+
+        function toggleLangDropdown() {
+            const dropdown = document.getElementById('lang-dropdown');
+            dropdown.classList.toggle('hidden');
+        }
+
+        // Web Audio API Sound Synthesizer
+        let audioCtx = null;
+        let soundEnabled = true;
+
+        function initAudioContext() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        function playClickSound() {
+            if (!soundEnabled) return;
+            try {
+                initAudioContext();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(850, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(320, audioCtx.currentTime + 0.08);
+
+                gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.08);
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.08);
+            } catch (e) {}
+        }
+
+        function playIntroChime() {
+            if (!soundEnabled) return;
+            try {
+                initAudioContext();
+                const now = audioCtx.currentTime;
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(250, now);
+                osc.frequency.exponentialRampToValueAtTime(1400, now + 0.9);
+
+                gain.gain.setValueAtTime(0.25, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 1.3);
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                osc.start(now);
+                osc.stop(now + 1.3);
+            } catch(e) {}
+        }
+
+        // Intro Sequence
+        window.addEventListener('DOMContentLoaded', () => {
+            generateRandomKey(false); // Generate standard key on load
+
+            const overlay = document.getElementById('intro-overlay');
+            const stage1 = document.getElementById('intro-stage-1');
+            const stage2 = document.getElementById('intro-stage-2');
+            const stage3 = document.getElementById('intro-stage-3');
+
+            setTimeout(() => {
+                stage1.classList.add('opacity-0');
+                stage2.classList.remove('opacity-0');
+                playIntroChime();
+            }, 900);
+
+            setTimeout(() => {
+                stage2.classList.add('opacity-0');
+                stage3.classList.remove('opacity-0');
+                playIntroChime();
+            }, 2300);
+
+            setTimeout(() => {
+                overlay.classList.add('opacity-0');
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                }, 1000);
+            }, 3800);
+        });
+
+        // Random Key Generator logic
+        function generateRandomKey(isVip = false) {
+            const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+            let randomPart = '';
+            for (let i = 0; i < 16; i++) {
+                randomPart += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            
+            const prefix = isVip ? 'sarae_vip_' : 'sarae_key_';
+            const fullKey = prefix + randomPart;
+            
+            document.getElementById('key-input').value = fullKey;
+
+            const badge = document.getElementById('badge-type');
+            const expiryBadge = document.getElementById('key-expiry-badge');
+            const statusTitle = document.getElementById('status-title');
+            const statusDesc = document.getElementById('status-desc');
+
+            if (isVip) {
+                badge.innerText = 'VIP 24H';
+                badge.className = 'px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-[11px] font-semibold text-amber-400 tracking-wider';
+                expiryBadge.innerText = currentLang === 'vi' ? 'Hạn: 24 Giờ' : 'Expires: 24 Hours';
+                expiryBadge.className = 'text-[10px] text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20 font-mono';
+                statusTitle.innerText = langData[currentLang].status_title_vip;
+                statusDesc.innerText = langData[currentLang].status_desc_vip;
+            } else {
+                badge.innerText = 'STANDARD';
+                badge.className = 'px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-[11px] font-semibold text-cyan-400 tracking-wider';
+                expiryBadge.innerText = currentLang === 'vi' ? 'Hạn: 9 Giờ' : 'Expires: 9 Hours';
+                expiryBadge.className = 'text-[10px] text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded border border-cyan-500/20 font-mono';
+                statusTitle.innerText = langData[currentLang].status_title_std;
+                statusDesc.innerText = langData[currentLang].status_desc_std;
+            }
+        }
+
+        function resetNewKey() {
+            generateRandomKey(false);
+            showAlert(currentLang === 'vi' ? 'Đã tạo đầu dây Key mới thành công!' : 'Generated new key successfully!');
+        }
+
+        // VIP Modal Controls
+        function openVipModal() {
+            document.getElementById('vip-code-input').value = '';
+            const modal = document.getElementById('vip-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeVipModal() {
+            const modal = document.getElementById('vip-modal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }
+
+        function verifyVipCode() {
+            const inputVal = document.getElementById('vip-code-input').value.trim();
+            if (inputVal === 'vip-X2oA-8e4A') {
+                closeVipModal();
+                generateRandomKey(true);
+                showAlert(currentLang === 'vi' ? 'Tuyệt vời! Mã VIP chính xác. Key 24h đã được cấp.' : 'Awesome! Valid VIP code. 24h Key generated.');
+            } else {
+                showAlert(currentLang === 'vi' ? 'Mã VIP không chính xác! Vui lòng thử lại (Code: vip-X2oA-8e4A)' : 'Invalid VIP code! Please try again.');
+            }
+        }
+
+        // Toggle Key Visibility
+        function toggleKeyVisibility() {
+            const input = document.getElementById('key-input');
+            const icon = document.getElementById('eye-icon');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.className = 'fa-solid fa-eye-slash text-cyan-400';
+            } else {
+                input.type = 'password';
+                icon.className = 'fa-solid fa-eye';
+            }
+        }
+
+        // Copy Key to Clipboard
+        function copyKey() {
+            const input = document.getElementById('key-input');
+            input.type = 'text';
+            input.select();
+            try {
+                document.execCommand('copy');
+                showAlert(currentLang === 'vi' ? 'Đã sao chép Key thành công vào bộ nhớ tạm!' : 'Key copied to clipboard successfully!');
+            } catch (err) {
+                showAlert(currentLang === 'vi' ? 'Không thể sao chép tự động, vui lòng copy thủ công.' : 'Unable to copy automatically.');
+            }
+            input.type = 'password';
+        }
+
+        // Notification Modal
+        function showAlert(msg) {
+            const modal = document.getElementById('custom-modal');
+            document.getElementById('modal-message').textContent = msg;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('custom-modal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }
+
+        // Audio Toggle
+        function toggleAudio() {
+            soundEnabled = !soundEnabled;
+            const icon = document.getElementById('audio-icon');
+            if (soundEnabled) {
+                icon.className = 'fa-solid fa-volume-high text-cyan-400';
+                showAlert(currentLang === 'vi' ? 'Đã bật âm thanh giao diện.' : 'Interface audio enabled.');
+            } else {
+                icon.className = 'fa-solid fa-volume-xmark text-slate-400';
+                showAlert(currentLang === 'vi' ? 'Đã tắt âm thanh giao diện.' : 'Interface audio disabled.');
+            }
+        }
+    </script>
+</body>
+</html>
